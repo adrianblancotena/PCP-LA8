@@ -1,0 +1,37 @@
+Running on master host bi07.local
+Time is Wed Nov 29 11:52:44 CET 2023
+Directory is /home/al405748/PCP-LA8
+Procsfile: /var/spool/torque/aux//25818.patan.act.uji.es
+This jobs runs on the following processors:
+bi07 bi07 bi07 bi07 bi06 bi06 bi06 bi06
+Nodesfile: procs_25818.txt
+This jobs runs on the following nodes:
+bi07 bi06
+This job has allocated 8 cores on 2 nodes
+MPICC=mpicc
+MPIRUN=mpirun 
+MPIOPT=--machinefile procs_25818.txt
+Proceso 0  Se ejecuta en: bi07.local
+Proceso 1  Se ejecuta en: bi06.local
+  Numero de procesos:      2
+  Numero de mensajes:   2000
+  Tamanyo inicial   :      0
+  Tamanyo final     :  10240
+  Incremento        :   1024
+ Comenzando bucle para envio de informacion
+
+ Tamanyo(bytes)   tiempoTotal(s.)  tiempoPorMsg(microsec.)  AnchoBanda(MB/s)
+ ---------------------------------------------------------------------------
+          0          0.001861             0.931                    0.00
+       1024          0.018309             9.154                  111.86
+       2048          0.035852            17.926                  114.25
+       3072          0.053063            26.532                  115.79
+       4096          0.070437            35.218                  116.30
+       5120          0.087834            43.917                  116.58
+       6144          0.105248            52.624                  116.75
+       7168          0.122666            61.333                  116.87
+       8192          0.140044            70.022                  116.99
+       9216          0.157448            78.724                  117.07
+      10240          0.174845            87.422                  117.13
+ ---------------------------------------------------------------------------
+Fin del programa
