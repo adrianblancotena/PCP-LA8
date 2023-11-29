@@ -1,0 +1,79 @@
+#!/bin/sh --login
+#
+# This script is generated automatically by PBSWeb-Lite.
+#
+#PBS -N PruebaMPI
+#PBS -q bi
+#| SUSTITUIR NND POR EL NUMERO DE MAQUINAS
+#PBS -l nodes=2:ppn=4
+#
+
+# Changing Working Directory
+cd $PBS_O_WORKDIR
+
+#
+# Header Information
+echo Running on master host `hostname`
+echo Time is `date`
+echo Directory is `pwd`
+echo Procsfile: $PBS_NODEFILE
+echo This jobs runs on the following processors:
+echo `cat $PBS_NODEFILE`
+
+# Define number of processors
+NPROCS=`wc -l < $PBS_NODEFILE`  
+
+# Building the local file with the name of the nodes
+for aux in `echo $PBS_NODEFILE | sed "s:/: :g"`; do
+  num=`echo $aux | cut -d. -f1`
+done
+file="procs_"$num".txt"
+uniq $PBS_NODEFILE > $file
+
+# Define number of nodes
+NNODES=`wc -l < $file`          
+
+# Printing information
+echo Nodesfile: $file
+echo This jobs runs on the following nodes:
+echo `cat $file`
+echo This job has allocated $NPROCS cores on $NNODES nodes
+
+# Defining/Adjusting environment variables
+#PATH=/usr/sbin/:$PATH
+#MPICC_ET=mpicc
+#MPIRUN_FA="mpirun --mca btl_tcp_if_include eth0 -v "
+#MPIOPT_ET="--machinefile $file"
+
+# Cambio Aliaga 7/3/22 
+PATH=/opt/mpich2/gnu/bin:/usr/sbin/:$PATH
+MPICC_ET=mpicc
+
+MPIRUN_FA="mpirun "
+
+MPIOPT_ET="--machinefile $file"
+
+
+
+
+# Selecting the communication network
+MPICC=$MPICC_ET ; MPIRUN=$MPIRUN_FA ; MPIOPT=$MPIOPT_ET
+echo "MPICC=$MPICC" ; echo "MPIRUN=$MPIRUN" ; echo "MPIOPT=$MPIOPT"
+
+##########################
+# WRITE LINES AFTER HERE #
+##########################
+
+# Compiling the files
+$MPICC AnchoBanda.c
+
+# Run the parallel MPI job,
+# executable "a.out" with argument "test_options".
+$MPIRUN -np $NNODES $MPIOPT ./a.out 2000 0 10240 1024
+
+# Removing executable
+rm a.out
+
+# Removing auxliar file
+rm $file
+
