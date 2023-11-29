@@ -59,14 +59,14 @@ int main( int argc, char * argv[] ) {
   // ... (A)
   
     if (miId == 0) {
-    // El proceso 0 envia el vector a los demas procesos, uno por uno.
-    for (i = 1; i < numProcs; i++) {
-    // Envia el vector vecArgs al proceso i, con la etiqueta 0 y el comunicador MPI_COMM_WORLD.
-    MPI_Send(vecArgs, 5, MPI_INT, i, 0, MPI_COMM_WORLD);
-    }
+        // El proceso 0 envia el vector a los demas procesos, uno por uno.
+        for (i = 1; i < numProcs; i++) {
+        // Envia el vector vecArgs al proceso i, con la etiqueta 0 y el comunicador MPI_COMM_WORLD.
+        MPI_Send(vecArgs, 5, MPI_INT, i, 0, MPI_COMM_WORLD);
+        }
     } else {
-    // El resto de procesos reciben el vector del proceso 0, con la etiqueta 0 y el comunicador MPI_COMM_WORLD.
-    MPI_Recv(vecArgs, 5, MPI_INT, 0, 0, MPI_COMM_WORLD, &s);
+        // El resto de procesos reciben el vector del proceso 0, con la etiqueta 0 y el comunicador MPI_COMM_WORLD.
+        MPI_Recv(vecArgs, 5, MPI_INT, 0, 0, MPI_COMM_WORLD, &s);
     }
   
   // El resto de procesos inicializan las cinco variables con la 
@@ -133,18 +133,18 @@ int main( int argc, char * argv[] ) {
     // Bucle de envio/recepcion de "numMensajes" de tamanyo "tam" y toma de tiempos.
     // ... (B)
 
-    if (miId == 0) {
-    // Process 0 sends messages to process 1 and waits for an acknowledgment
-    t1 = MPI_Wtime(); // Start the timer
-    for (i = 0; i < numMensajes; i++) {
-    // Send a message of size tam bytes to process 1, with the tag i and the communicator MPI_COMM_WORLD
-    MPI_Send(ptrWorkspace, tam, MPI_CHAR, 1, i, MPI_COMM_WORLD);
-    }
-    // Receive a message of size 0 bytes from process 1, with any tag and the communicator MPI_COMM_WORLD
-    MPI_Recv(ptrWorkspace, 0, MPI_CHAR, 1, MPI_ANY_TAG, MPI_COMM_WORLD, &s);
-    t2 = MPI_Wtime(); // Stop the timer
-    tiempoTotal = t2 - t1; // Calculate the total time
-    } else if (miId == 1) {
+        if (miId == 0) {
+          // Process 0 sends messages to process 1 and waits for an acknowledgment
+          t1 = MPI_Wtime(); // Start the timer
+            for (i = 0; i < numMensajes; i++) {
+            // Send a message of size tam bytes to process 1, with the tag i and the communicator MPI_COMM_WORLD
+             MPI_Send(ptrWorkspace, tam, MPI_CHAR, 1, i, MPI_COMM_WORLD);
+            }
+            // Receive a message of size 0 bytes from process 1, with any tag and the communicator MPI_COMM_WORLD
+            MPI_Recv(ptrWorkspace, 0, MPI_CHAR, 1, MPI_ANY_TAG, MPI_COMM_WORLD, &s);
+            t2 = MPI_Wtime(); // Stop the timer
+            tiempoTotal = t2 - t1; // Calculate the total time
+            } else if (miId == 1) {
     // Process 1 receives messages from process 0 and sends an acknowledgment when it receives the last one
     for (i = 0; i < numMensajes; i++) {
     // Receive a message of size tam bytes from process 0, with the tag i and the communicator MPI_COMM_WORLD
@@ -154,6 +154,7 @@ int main( int argc, char * argv[] ) {
         MPI_Send(ptrWorkspace, 0, MPI_CHAR, 0, i, MPI_COMM_WORLD);
     }
     }
+            }
 
     // Calculo de prestaciones: tiempoTotal, tiempoPorMensajeEnMicroseg,
     // anchoDeBandaEnMbs.
