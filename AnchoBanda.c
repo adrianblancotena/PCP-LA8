@@ -162,7 +162,7 @@ int main( int argc, char * argv[] ) {
 
     if (miId == 0) {
         tiempoPorMensajeEnMicroseg = (tiempoTotal / numMensajes) * 1e6; // Convert seconds to microseconds
-        anchoDeBandaEnMbs = numMensajes/(tiempoPorMensajeEnMicroseg); // Convert bytes to megabits
+        anchoDeBandaEnMbs = tam/(tiempoPorMensajeEnMicroseg); // Convert bytes to megabits
     }
 
     // Escritura de resultados.
